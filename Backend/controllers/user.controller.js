@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 dotenv.config();
 
 export const signup = async (req, res) => {
