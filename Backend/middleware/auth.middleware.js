@@ -30,10 +30,10 @@ export const auth = (req, res, next) => {
     req.user = decoded;
 
     next();
-
   } catch (err) {
-    console.log("Auth Error:", err.message);
-
-    return res.status(401).json({ error: "Invalid token" })
+    console.log("Auth Error:", err);
+    return res.status(401).json({
+      error: err.message,
+    });
   }
 };

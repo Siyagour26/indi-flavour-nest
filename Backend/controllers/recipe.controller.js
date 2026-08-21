@@ -8,12 +8,10 @@ export const addRecipe = async (req, res) => {
 try {
     let imageName = null;
 
-    // 👉 If file uploaded
     if (req.file) {
       imageName = req.file.filename;
     }
 
-    // 👉 If image URL provided
     else if (req.body.image) {
       const imageUrl = req.body.image;
 

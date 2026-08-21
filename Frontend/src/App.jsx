@@ -8,6 +8,7 @@ import MyRecipes from "./components/Recipes/MyRecipes";
 import AddRecipes from "./components/Recipes/AddRecipes";
 import RecipeDetails from "./components/Recipes/RecipeDetails";
 import AllRecipes from "./components/Recipes/AllRecipes";
+import Favorites from "./components/Recipes/FavRecipes";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/all-recipes" element={<AllRecipes />} />
         <Route path="signin" element={<LogIn />} />
         <Route path="signup" element={<Register />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </>
   );

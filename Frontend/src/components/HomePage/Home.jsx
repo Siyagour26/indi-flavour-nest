@@ -1,14 +1,15 @@
 import { useReducer, useEffect, useState } from "react";
-import axios from "axios";
 import Header from "../Header/Header";
 import Api from "../../Api.js";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import foodImg from "../../assets/main.jpg";
+import axiosUse from "../../axios.js";
 
 const Home = () => {
   const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(6);
+  const [favorites, setFavorites] = useState([]);
 
   const [state, dispatch] = useReducer(
     (state, action) => {
@@ -22,7 +23,7 @@ const Home = () => {
 
   const loadRecipes = async () => {
     try {
-      let response = await axios.get(Api.FETCH_RECIPES);
+      let response = await axiosUse.get(Api.FETCH_RECIPES);
       console.log(response.data);
 
       dispatch({
@@ -36,6 +37,42 @@ const Home = () => {
   useEffect(() => {
     loadRecipes();
   }, []);
+
+  useEffect(() => {
+  const getFavorites = async () => {
+    try {
+      const res = await axiosUse.get(Api.FETCH_FAV);
+
+      console.log("FAVORITES RESPONSE:", res.data);
+
+      setFavorites(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getFavorites();
+}, []);
+
+  const toggleFavourite = async (recipeId) => {
+    try {
+      await axiosUse.post(Api.TOGGLE_FAV, {
+        recipe_id: recipeId,
+      });
+
+      setFavorites((prev) => {
+        const alreadyFavorite = prev.some((fav) => fav.recipe_id === recipeId);
+
+        if (alreadyFavorite) {
+          return prev.filter((fav) => fav.recipe_id !== recipeId);
+        }
+
+        return [...prev, { recipe_id: recipeId }];
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   let viewMoreBtn = null;
   if (state.recipeList.length > 6 && visibleCount < state.recipeList.length) {
@@ -107,7 +144,27 @@ const Home = () => {
                         style={{ height: "200px", objectFit: "cover" }}
                       />
                     )}
-                    <h5 className="fw-bold">{r.recipe_name}</h5>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <h5 className="fw-bold mb-0">{r.recipe_name}</h5>
+
+                      <button
+                        onClick={() => toggleFavourite(r.recipe_id)}
+                        className="btn p-0 border-0"
+                        style={{
+                          fontSize: "30px",
+                          color: favorites.some(
+                            (fav) => fav.recipe_id === r.recipe_id, 
+                          )
+                            ? "red"
+                            : "#999",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {favorites.some((fav) => fav.recipe_id === r.recipe_id)
+                          ? "♥"
+                          : "♡"}
+                      </button>
+                    </div>
                     <div className="mb-2">
                       <span className="badge bg-success me-2">
                         {r.category}
@@ -123,7 +180,7 @@ const Home = () => {
                       className="btn btn-success mt-2 mt-auto"
                       onClick={() => navigate(`/recipe/${r.recipe_id}`)}
                     >
-                      View Details →
+                      View Details
                     </button>
                   </div>
                 </div>
