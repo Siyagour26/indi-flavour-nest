@@ -30,10 +30,7 @@ const RecipeDetails = () => {
       <Header />
 
       <div className="container mt-5">
-
-        {/* 🔥 Image + Title Section */}
         <div className="position-relative mb-4 rounded overflow-hidden shadow">
-
           <img
             src={
               recipe.image
@@ -45,27 +42,23 @@ const RecipeDetails = () => {
             style={{ height: "300px", objectFit: "cover" }}
           />
 
+          {/* Recipe Name */}
           <div
-            className="position-absolute top-50 start-50 translate-middle text-white text-center"
+            className="position-absolute bottom-0 start-0 w-100 text-white"
             style={{
-              background: "rgba(0,0,0,0.5)",
-              padding: "10px 20px",
-              borderRadius: "10px",
+              background: "linear-gradient(transparent, rgba(0,0,0,0.8))",
+              padding: "50px 30px 20px",
             }}
           >
-            <h2 className="fw-bold">{recipe.recipe_name}</h2>
+            <h2 className="fw-bold mb-0">{recipe.recipe_name}</h2>
           </div>
         </div>
 
         {/* 📄 Recipe Details */}
         <div className="card shadow p-4 rounded-4">
           <div className="mb-3">
-            <span className="badge bg-success me-2">
-              {recipe.category}
-            </span>
-            <span className="badge bg-warning text-dark">
-              {recipe.region}
-            </span>
+            <span className="badge bg-success me-2">{recipe.category}</span>
+            <span className="badge bg-warning text-dark">{recipe.region}</span>
           </div>
 
           <h5 className="fw-bold mt-3">Ingredients</h5>

@@ -11,17 +11,18 @@ function Register() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = () => {
-    axios
-      .post(Api.USER_SIGNUP, { name, contact, email, password, address })
-      .then((response) => {
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    try{
+       let response= await axios.post(Api.USER_SIGNUP, { name, contact, email, password, address })
+        console.log(response);
         navigate("/signin");
         toast.success("User Registered");
-      })
-      .catch((err) => {
+    }
+    catch(err){
         console.log(err);
-      });
-  };
+    }
+  }
   return (
     <>
       <div
@@ -132,5 +133,6 @@ function Register() {
     </>
   );
 }
+
 
 export default Register;
