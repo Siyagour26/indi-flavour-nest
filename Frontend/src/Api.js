@@ -1,4 +1,4 @@
-const SERVER_BASE_URL = "http://localhost:3000";
+const SERVER_BASE_URL = import.meta.env.VITE_API_URL;
 export default {
   USER_SIGNUP: SERVER_BASE_URL + "/user/signup",
   USER_SIGNIN: SERVER_BASE_URL + "/user/signin",
